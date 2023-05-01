@@ -3,6 +3,9 @@ import './OptionSelect.css'
 import axios from 'axios'
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
+// this is a component for option select and get all groups from database
+// instead of repeat code in Main and AddMeeting i made 1 component
+
 interface Group {
   groupName: string
   groupKey: string

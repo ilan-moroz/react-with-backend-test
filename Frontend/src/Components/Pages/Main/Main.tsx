@@ -29,6 +29,7 @@ function Main(): JSX.Element {
     <div className="Main">
       {/* select menu with option that map through all the group names*/}
       select a production group:
+      {/* component for option select */}
       <OptionSelect onChange={handleChange} />
       <br /> <br />
       {/* show the table only after option chosen */}

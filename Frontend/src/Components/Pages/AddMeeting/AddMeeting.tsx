@@ -71,6 +71,7 @@ function AddMeeting(): JSX.Element {
             Select Group:
           </InputLabel>
           <form onSubmit={handleSubmit(onSubmit)}>
+            {/* component for option select */}
             <OptionSelect
               autoFocus
               {...register('groupKey', { required: true })}
