@@ -1,33 +1,12 @@
 import './Main.css'
-import { useState, useEffect } from 'react'
-import { Select, MenuItem, Button } from '@mui/material'
+import { useState } from 'react'
+import { Button } from '@mui/material'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-
-interface Group {
-  groupName: string
-  groupKey: string
-}
+import OptionSelect from '../OptionSelect/OptionSelect'
 
 function Main(): JSX.Element {
-  const [groupNames, setGroupNames] = useState<Group[]>([])
   const [meetings, setMeetings] = useState([])
-
-  // use effect to get all groups from database
-  useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/v1/meetings/allGroups')
-      .then((res) => {
-        const groupNames = res.data.map((group: Group) => ({
-          groupName: group.groupName,
-          groupKey: group.groupKey,
-        }))
-        setGroupNames(groupNames)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }, [])
 
   // handle change function for option select and run getMeetingsInfo with the target value key
   const handleChange = (event: any) => {
@@ -50,13 +29,7 @@ function Main(): JSX.Element {
     <div className="Main">
       {/* select menu with option that map through all the group names*/}
       select a production group:
-      <Select onChange={handleChange}>
-        {groupNames.map((group: Group) => (
-          <MenuItem value={group.groupKey} key={group.groupKey}>
-            {group.groupName}
-          </MenuItem>
-        ))}
-      </Select>
+      <OptionSelect onChange={handleChange} />
       <br /> <br />
       {/* show the table only after option chosen */}
       {meetings.length > 0 && (

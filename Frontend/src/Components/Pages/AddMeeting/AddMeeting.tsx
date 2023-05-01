@@ -5,8 +5,6 @@ import {
   CssBaseline,
   Grid,
   InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@mui/material'
@@ -14,12 +12,7 @@ import './AddMeeting.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
-
-interface Group {
-  groupName: string
-  groupKey: string
-}
+import OptionSelect from '../OptionSelect/OptionSelect'
 
 // save the new mission in the database
 const addNewMeetings = (newMeeting: any) => {
@@ -34,24 +27,6 @@ const addNewMeetings = (newMeeting: any) => {
 }
 
 function AddMeeting(): JSX.Element {
-  const [groupNames, setGroupNames] = useState<Group[]>([])
-
-  // use effect to get all groups from database
-  useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/v1/meetings/allGroups')
-      .then((res) => {
-        const groupNames = res.data.map((group: Group) => ({
-          groupName: group.groupName,
-          groupKey: group.groupKey,
-        }))
-        setGroupNames(groupNames)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }, [])
-
   const navigate = useNavigate()
   const {
     register,
@@ -96,20 +71,12 @@ function AddMeeting(): JSX.Element {
             Select Group:
           </InputLabel>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Select
-              fullWidth
-              id="groupKey"
+            <OptionSelect
               autoFocus
               {...register('groupKey', { required: true })}
               name="groupKey"
               error={Boolean(errors.groupKey)}
-            >
-              {groupNames.map((group: Group) => (
-                <MenuItem value={group.groupKey} key={group.groupKey}>
-                  {group.groupName}
-                </MenuItem>
-              ))}
-            </Select>
+            />
             <TextField
               margin="normal"
               fullWidth
